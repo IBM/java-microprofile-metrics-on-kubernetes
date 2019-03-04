@@ -14,7 +14,7 @@ spec:
       containers:
       - name: microservice-webapp
         #change the image name
-        image: sanjeevghimire/microservice-ol-webapp
+        image: journeycode/microservice-ol-webapp
         ports:
           - containerPort: 9080
         imagePullPolicy: Always
