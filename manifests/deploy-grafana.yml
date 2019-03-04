@@ -1,0 +1,82 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana-core  
+  labels:
+    app: grafana
+    component: core
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+        component: core
+    spec:
+      containers:
+      - image: grafana/grafana:4.2.0
+        name: grafana-core
+        imagePullPolicy: Always
+        # env:
+        resources:
+          # keep request = limit to keep this container in guaranteed class
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          # The following env variables set up basic auth with the default admin user and admin password.
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "true"
+          - name: GF_SECURITY_ADMIN_USER
+            valueFrom:
+              secretKeyRef:
+                name: grafana
+                key: admin-username
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: grafana
+                key: admin-password
+          - name: GF_AUTH_ANONYMOUS_ENABLED
+            value: "true"
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 3000
+          # initialDelaySeconds: 30
+          # timeoutSeconds: 1
+        volumeMounts:
+        - name: grafana-persistent-storage
+          mountPath: /var/lib/grafana
+      volumes:
+      - name: grafana-persistent-storage
+        emptyDir: {}
+       
+---
+apiVersion: v1
+kind: Secret
+data:
+  admin-password: YWRtaW4=
+  admin-username: YWRtaW4=
+metadata:
+  name: grafana  
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana  
+  labels:
+    app: grafana
+    component: core
+spec:  
+  clusterIP: None
+  ports:
+    - port: 3000
+  selector:
+    app: grafana
+    component: core
+---

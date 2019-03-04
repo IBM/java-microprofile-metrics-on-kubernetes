@@ -1,0 +1,39 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: microprofile-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls: 
+    - hosts:
+      - sanjeev-microprofile-clu.us-south.containers.appdomain.cloud
+      secretName: sanjeev-microprofile-clu
+  rules:
+  - host: sanjeev-microprofile-clu.us-south.containers.appdomain.cloud
+    http:
+      paths:
+      - path: /speaker
+        backend:
+          serviceName: speaker-service
+          servicePort: 9080
+      - path: /session
+        backend:
+          serviceName: session-service
+          servicePort: 9080
+      - path: /schedule
+        backend:
+          serviceName: schedule-service
+          servicePort: 9080
+      - path: /vote
+        backend:
+          serviceName: vote-service
+          servicePort: 9080
+      - path: /metrics
+        backend:
+          serviceName: grafana
+          servicePort: 3000   
+      - backend:
+          serviceName: webapp-service
+          servicePort: 9080

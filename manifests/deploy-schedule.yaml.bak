@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microservice-schedule-sample
+  labels:
+    app: microprofile-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: schedule-deployment
+    spec:
+      containers:
+      - name: microservice-schedule
+        #change the image name
+        image: journeycode/microservice-ol-schedule
+        ports:
+          - containerPort: 9080
+        imagePullPolicy: IfNotPresent 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schedule-service
+  labels:
+    app: microprofile-app
+spec:
+  clusterIP: None
+  ports:
+    - port: 9080
+      targetPort: 9080
+  selector:
+    name: schedule-deployment

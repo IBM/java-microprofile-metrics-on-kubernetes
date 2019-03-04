@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus-metrics
+  labels:
+    app: microprofile-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: prometheus-deployment
+    spec:
+      containers:
+      - name: prometheus-metrics
+        #change the image name
+        image: prom/prometheus:v2.7.1
+        args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus2/"
+        ports:
+          - containerPort: 9090
+        imagePullPolicy: Always
+        volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: prometheus-storage-volume
+              mountPath: /prometheus2/
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            name: prometheus-configuration
+        - name: prometheus-storage-volume
+          emptyDir: {}        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  labels:
+    app: microprofile-app
+spec:
+  clusterIP: None
+  ports:
+    - port: 9090
+      targetPort: 9090
+  selector:
+    name: prometheus-deployment

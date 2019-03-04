@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microservice-session-sample
+  labels:
+    app: microprofile-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: session-deployment
+    spec:
+      containers:
+      - name: microservice-session
+        #change the image name
+        image: journeycode/microservice-ol-session
+        ports:
+          - containerPort: 9080
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: session-service
+  labels:
+    app: microprofile-app
+spec:
+  clusterIP: None
+  ports:
+    - port: 9080
+      targetPort: 9080
+  selector:
+    name: session-deployment
