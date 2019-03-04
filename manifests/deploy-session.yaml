@@ -14,7 +14,7 @@ spec:
       containers:
       - name: microservice-session
         #change the image name
-        image: sanjeevghimire/microservice-ol-session
+        image: journeycode/microservice-ol-session
         ports:
           - containerPort: 9080
         imagePullPolicy: Always
