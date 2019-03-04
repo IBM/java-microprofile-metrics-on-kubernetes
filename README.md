@@ -144,6 +144,10 @@ Prometheus server helps scrape metrics from your microservices and gathers time 
 kubectl port-forward pod/<prometheus-server-pod-name>  9090:9090
 ```
 
+Sample metrics graph for `thread count` on prometheus server:
+
+![](images/prometheus-dashboard.png)
+
 > NOTE: Exposing metrics using prometheus server is not recommended as the metrics are not human readable.
 
 ### 5. Installing Grafana
