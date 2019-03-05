@@ -11,6 +11,15 @@ The [sample application](https://github.com/IBM/sample.microservices.web-app) us
 
 ![Flow](images/architecture.png)
 
+## Flow
+
+1. Create Kubernetes service from IBM cloud.
+1. Deploy all microservices and web application also as a microservices into the Kubernetes cluster.
+1. Deploy Prometheus server as a service into the Kubernetes cluster.
+1. Deploy Grafana as a service into the kubernetes cluster.
+1. Use ingress gateway to expose web application from the kubernetes cluster
+1. User accesses the web application through browser.
+
 ## Included Components
 - [Kubernetes Cluster](https://cloud.ibm.com/docs/containers/cs_ov.html#cs_ov)
 - [MicroProfile](https://microprofile.io/)
