@@ -181,7 +181,7 @@ Following are the steps to see metrics on grafana dashboard.
 * Import the JSON file [grafana dashboard](data/metrics-grafana-dashboard.json) into Grafana. This json file is the representation of what charts to display in the Grafana dashboard.
 ![Import dashboard JSON](images/load-json.png)
 
-* The charts should be now loaded in the dashboard. The charts are real time. So, as you go through the webapp clicking each link, the charts on the Grafana dashboard will show spikes on each charts.
+* The charts should be now loaded in the dashboard. The charts are real time. So, as you go through the webapp clicking each link, the charts on the Grafana dashboard will show spikes on each chart.
 ![Grafana Metrics](images/grafana-metrics.png)
 
 
