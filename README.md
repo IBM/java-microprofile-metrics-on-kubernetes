@@ -9,15 +9,15 @@ This code demonstrates the deployment of a Java based microservices application 
 
 The [sample application](https://github.com/IBM/sample.microservices.web-app) used is a web application for managing a conference and is based on a number of discrete microservices. The front end is written in Angular; the backing microservices are in Java. All run on Open Liberty, in Docker containers managed by Kubernetes.  It's based on a [demo application](https://github.com/eclipse/microprofile-conference) from the MicroProfile platform team.
 
-![Flow](images/architecture.png)
+![architecture](images/architecture.png)
 
 ## Flow
 
 1. Create Kubernetes service from IBM cloud.
-1. Deploy all microservices and web application also as a microservices into the Kubernetes cluster.
+1. Deploy all the microservices into the Kubernetes cluster.
 1. Deploy Prometheus server as a service into the Kubernetes cluster.
-1. Deploy Grafana as a service into the kubernetes cluster.
-1. Use ingress gateway to expose web application from the kubernetes cluster
+1. Deploy Grafana as a service into the Kubernetes cluster.
+1. Use ingress gateway to expose web application from the Kubernetes cluster
 1. User accesses the web application through browser.
 
 ## Included Components
@@ -155,13 +155,13 @@ kubectl port-forward pod/<prometheus-server-pod-name>  9090:9090
 
 Sample metrics graph for `thread count` on prometheus server:
 
-![](images/prometheus-dashboard.png)
+![Prometheus dashboard](images/prometheus-dashboard.png)
 
 > NOTE: Exposing metrics using prometheus server is not recommended as the metrics are not human readable.
 
 ### 5. Installing Grafana
 
-Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by prometheus server. The deployment yaml file [prometheus server](manifests/deploy-grafana.yml) installs the grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
+Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
 
 ```
 kubectl port-forward pod/<grafana-pod-name>  3000:3000
@@ -169,20 +169,20 @@ kubectl port-forward pod/<grafana-pod-name>  3000:3000
 
 Following are the steps to see metrics on grafana dashboard.
 
-* Launch `http://locahost:3000/metrics` which will open up grafana dashboard.
+* Launch `http://locahost:3000/metrics` which will open up Grafana dashboard.
 * Login using the default username/password which is admin/admin.
 * Add Datasource.
 
-![](images/grafana1.png)
+![Grafana Dashboard](images/grafana1.png)
 
 * Add Prometheus server URL.
-![](images/add-datasource.png)
+![Add datasource](images/add-datasource.png)
 
 * Load the JSON file `[grafana dashboard](data/metrics-grafana-dashboard.json)`
-![](images/load-json.png)
+![Import dashboard JSON](images/load-json.png)
 
-* View the Dashboard load the charts. The charts are real time. So, as you go through the webapp clicking each link the charts on the grafana dashboard will so spikes on each charts.
-![](images/grafana-metrics.png)
+* View the Dashboard load the charts. The charts are real time. So, as you go through the webapp clicking each link the charts on the Grafana dashboard will show spikes on each charts.
+![Grafana Metrics](images/grafana-metrics.png)
 
 
 
