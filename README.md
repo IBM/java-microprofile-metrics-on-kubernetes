@@ -152,16 +152,29 @@ Sample metrics graph for `thread count` on prometheus server:
 
 ### 5. Installing Grafana
 
-Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by prometheus server. The deployment yaml file [prometheus server](manifests/deploy-grafana.yml) installs the grafana dashboard into the cluster which you can access on port 3000 after port forwarding.
+Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by prometheus server. The deployment yaml file [prometheus server](manifests/deploy-grafana.yml) installs the grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
+
+```
+kubectl port-forward pod/<grafana-pod-name>  3000:3000
+```
 
 Following are the steps to see metrics on grafana dashboard.
 
 * Launch `http://locahost:3000/metrics` which will open up grafana dashboard.
 * Login using the default username/password which is admin/admin.
 * Add Datasource.
+
+![](images/grafana1.png)
+
 * Add Prometheus server URL.
+![](images/add-datasource.png)
+
 * Load the JSON file `[grafana dashboard](data/metrics-grafana-dashboard.json)`
+![](images/load-json.png)
+
 * View the Dashboard load the charts. The charts are real time. So, as you go through the webapp clicking each link the charts on the grafana dashboard will so spikes on each charts.
+![](images/grafana-metrics.png)
+
 
 
 ## Troubleshooting
