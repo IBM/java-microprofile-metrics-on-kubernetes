@@ -51,6 +51,13 @@ cd Java-MicroProfile-on-Kubernetes
 
 If you want to [build the application](docs/build-instructions.md) yourself now would be a good time to do that. Please follow the rebuild steps if you'd like to re-create images with the latest available Open Liberty version. However for the sake of demonstration you can use the images that we've already built and uploaded to the journeycode docker repository.
 
+### 2. Create Kuberenetes Cluster
+Login to IBM Cloud and search for `kubernetes service` and select the service to create one.
+
+![Kubernetes Service](images/kubernetes-service.png)
+
+Click `Create` and choose the configuration needed for your requirement and click `Create Cluster`.
+
 ### 3. Deploy Microservices
 
 Now, deploy the microservices with the commands:
@@ -129,15 +136,32 @@ When you click on vote link
 
 ![Vote Info](images/ui4.png)
 
-## Installing Prometheus Server
+### 4. Installing Prometheus Server
 
-Prometheus server helps scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previoius step you have already installed Grafana. The deployment yaml file [grafana](manifests/deploy-grafana.yaml) installs the prometheus server into the cluster which you can access on port 9090 after port forwarding.
+Prometheus server helps scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previoius step you have already installed prometheus server. The deployment yaml file [grafana](manifests/deploy-prometheus) deploys the prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
 
-## Installing Grafana
+```
+kubectl port-forward pod/<prometheus-server-pod-name>  9090:9090
+```
+
+Sample metrics graph for `thread count` on prometheus server:
+
+![](images/prometheus-dashboard.png)
+
+> NOTE: Exposing metrics using prometheus server is not recommended as the metrics are not human readable.
+
+### 5. Installing Grafana
 
 Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by prometheus server. The deployment yaml file [prometheus server](manifests/deploy-grafana.yml) installs the grafana dashboard into the cluster which you can access on port 3000 after port forwarding.
 
-Following are the steps to see metrics on grafan dashboard.
+Following are the steps to see metrics on grafana dashboard.
+
+* Launch `http://locahost:3000/metrics` which will open up grafana dashboard.
+* Login using the default username/password which is admin/admin.
+* Add Datasource.
+* Add Prometheus server URL.
+* Load the JSON file `[grafana dashboard](data/metrics-grafana-dashboard.json)`
+* View the Dashboard load the charts. The charts are real time. So, as you go through the webapp clicking each link the charts on the grafana dashboard will so spikes on each charts.
 
 
 ## Troubleshooting
@@ -148,6 +172,8 @@ Following are the steps to see metrics on grafan dashboard.
 	* `kubectl delete -f manifests/<microservice-yaml-file>`
 * To delete all microservices
 	* `kubectl delete -f manifests`
+* You can also see kail logs using command:
+	* `kubectl run -it --rm -l kail.ignore=true --restart=Never --image=abozanich/kail kail-default-ingress-2 -- --ns default`
 
 ## References
 * This Java microservices example is based on Kubernetes [Microprofile Showcase Application](https://github.com/WASdev/sample.microservices.docs).
