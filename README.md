@@ -3,9 +3,9 @@
 # Track usage metrics via the MicroProfile Metrics feature
 
 
-This code demonstrates the deployment of a Java based microservices application using MicroProfile on Kubernetes and uses [Prometheus](https://prometheus.io/) to scrape application metrics and use [Grafana](https://grafana.com/) platform for analytics and monitoring.
+This code demonstrates the deployment of a Java Open Liberty application using MicroProfile on Kubernetes. It uses [Prometheus](https://prometheus.io/) to scrape application metrics and [Grafana](https://grafana.com/) platform for analytics and monitoring.
 
-[MicroProfile](https://microprofile.io/) is a baseline platform definition that optimizes Enterprise Java for a microservices architecture and delivers application portability across multiple MicroProfile runtimes. Since Release of microprofile 1.2, metrics feature comes out of the box through the platform.
+[MicroProfile](https://microprofile.io/) is a baseline platform definition that optimizes Enterprise Java for a microservices architecture and delivers application portability across multiple MicroProfile runtimes. Since the release of MicroProfile 1.2, the metrics feature comes out-of-the-box with the platform.
 
 The [sample application](https://github.com/IBM/sample.microservices.web-app) used is a web application for managing a conference and is based on a number of discrete microservices. The front end is written in Angular; the backing microservices are in Java. All run on Open Liberty, in Docker containers managed by Kubernetes.  It's based on a [demo application](https://github.com/eclipse/microprofile-conference) from the MicroProfile platform team.
 
@@ -13,7 +13,7 @@ The [sample application](https://github.com/IBM/sample.microservices.web-app) us
 
 ## Flow
 
-1. Create Kubernetes service from IBM cloud.
+1. Create Kubernetes service in IBM cloud.
 1. Deploy all the microservices into the Kubernetes cluster.
 1. Deploy Prometheus server as a service into the Kubernetes cluster.
 1. Deploy Grafana as a service into the Kubernetes cluster.
@@ -52,13 +52,13 @@ Server Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.5+IKS", Gi
 
 First, clone our repository.
 ```shell
-git clone https://github.com/IBM/Java-MicroProfile-on-Kubernetes
-cd Java-MicroProfile-on-Kubernetes
+git clone https://github.com/IBM/java-microprofile-metrics-on-kubernetes
+cd java-microprofile-metrics-on-kubernetes
 ```
 
 ### 2. Optional Step - Build Application
 
-If you want to [build the application](docs/build-instructions.md) yourself now would be a good time to do that. Please follow the rebuild steps if you'd like to re-create images with the latest available Open Liberty version. However for the sake of demonstration you can use the images that we've already built and uploaded to the journeycode docker repository.
+If you want to [build the application](docs/build-instructions.md) yourself now would be a good time to do that. Please follow the rebuild steps if you'd like to re-create images with the latest available Open Liberty version. However for the sake of demonstration you can use the images that we've already built and uploaded to the journeycode Docker repository.
 
 ### 2. Create Kuberenetes Cluster
 Login to IBM Cloud and search for `kubernetes service` and select the service to create one.
@@ -147,7 +147,7 @@ When you click on vote link
 
 ### 4. Installing Prometheus Server
 
-Prometheus server helps scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previoius step you have already installed prometheus server. The deployment yaml file [grafana](manifests/deploy-prometheus) deploys the prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
+Prometheus server is set up to scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previous step you have already installed Prometheus server. The deployment yaml file [grafana](manifests/deploy-prometheus) deploys the Prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
 
 ```
 kubectl port-forward pod/<prometheus-server-pod-name>  9090:9090
@@ -161,7 +161,7 @@ Sample metrics graph for `thread count` on prometheus server:
 
 ### 5. Installing Grafana
 
-Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
+Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by Prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
 
 ```
 kubectl port-forward pod/<grafana-pod-name>  3000:3000
@@ -171,8 +171,10 @@ Following are the steps to see metrics on grafana dashboard.
 
 * Launch `http://locahost:3000/metrics` which will open up Grafana dashboard.
 * Login using the default username/password which is admin/admin.
-* Add Datasource. There are two ways you can add data source.
+* Add Datasource.
+
 ![Grafana Dashboard](images/grafana1.png)
+
 * Add Prometheus server URL.
 	* Using Direct Connection: In this approach, you need to port forward the prometheus server to port 9090.
 		```
@@ -199,7 +201,7 @@ Following are the steps to see metrics on grafana dashboard.
 * To delete all microservices
 	* `kubectl delete -f manifests`
 * You can also see kail logs using command:
-	* `kubectl run -it --rm -l kail.ignore=true --restart=Never --image=abozanich/kail kail-default-ingress-2 -- --ns default`
+	* `kubectl run -it --rm -l kail.ignore=true --restart=Never --image=abozanich/kail kail-default -- --ns default`
 
 ## References
 * This Java microservices example is based on Kubernetes [Microprofile Showcase Application](https://github.com/WASdev/sample.microservices.docs).
