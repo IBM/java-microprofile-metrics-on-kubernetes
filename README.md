@@ -39,7 +39,7 @@ _Note: These instructions are tested on Kubernetes 1.10.5.  Your mileage may var
 
 After installing (or setting up your access to) Kubernetes ensure that you can access it by running the following and confirming you get version responses for both the Client and the Server:
 
-```shell
+```bash
 $ kubectl version
 
 Client Version: version.Info{Major:"1", Minor:"11", GitVersion:"v1.11.0", GitCommit:"91e7b4fd31fcd3d5f436da26c980becec37ceefe", GitTreeState:"clean", BuildDate:"2018-06-27T20:17:28Z", GoVersion:"go1.10.2", Compiler:"gc", Platform:"linux/amd64"}
@@ -51,7 +51,7 @@ Server Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.5+IKS", Gi
 ### 1. Clone Repository
 
 First, clone our repository.
-```shell
+```bash
 git clone https://github.com/IBM/java-microprofile-metrics-on-kubernetes
 cd java-microprofile-metrics-on-kubernetes
 ```
@@ -72,14 +72,14 @@ Click `Create` and choose the configuration needed for your requirement and clic
 Now, deploy the microservices with the commands:
 
 If using Minikube / ICP run:
-```shell
+```bash
 $ cd scripts
 $ ./set-ingress-minikube.sh
 ```
 
 If using IBM Cloud Kubernetes Service, run:
 
-```shell
+```bash
 $ cd scripts
 $ ./set-ingress-host [cluster name]
 $ ./cloudant-secret.sh
@@ -87,7 +87,7 @@ $ ./cloudant-secret.sh
 
 Finally, deploy all microservices:
 
-```shell
+```bash
 $ kubectl create -f manifests
 persistentvolume "cloudant-pv" created
 persistentvolumeclaim "cloudant-pv-claim" created
@@ -108,7 +108,7 @@ After a few minutes you should be able to access the application. Part of our de
 
 However if you are using minikube, or a Kubernetes cluster that does not have an ingress service you have one more step before you can access your cluster. On minikube you can do the following:
 
-```shell
+```bash
 $ minikube addons enable ingress
 ingress was successfully enabled
 $ minikube ip
@@ -120,7 +120,7 @@ With an Ingress controller enabled you can access the app via the IP provided by
 If running on IBM Cloud Kubernetes Service, you will use the hostname to access the application, which
 you can retrieve with the following:
 
-```shell
+```bash
 $ kubectl get ing
 NAME                   HOSTS                                          ADDRESS          PORTS     AGE
 microprofile-ingress   microkube.us-east.containers.appdomain.cloud   ***.***.***.***   80, 443   1m
@@ -149,7 +149,7 @@ When you click on vote link
 
 Prometheus server is set up to scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previous step you have already installed Prometheus server. The deployment yaml file [grafana](manifests/deploy-prometheus) deploys the Prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
 
-```
+```bash
 kubectl port-forward pod/<prometheus-server-pod-name>  9090:9090
 ```
 
@@ -163,7 +163,7 @@ Sample metrics graph for `thread count` on prometheus server:
 
 Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by Prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
 
-```
+```bash
 kubectl port-forward pod/<grafana-pod-name>  3000:3000
 ```
 
@@ -177,9 +177,11 @@ Following are the steps to see metrics on grafana dashboard.
 
 * Add Prometheus server URL.
 	* Using Direct Connection: In this approach, you need to port forward the prometheus server to port 9090.
-		```
+		
+		```bash
 			kubectl port-forward pod/<prometheus server-pod-name>  9090:9090
 		```	
+		
 		![Add datasource](images/add-datasource.png)
 	* Using Proxy	: In this approach, you need to add `http://<prometheus service name>:<port>` as the proxy 		url.
 		![Grafana Dashboard](images/add-datasource-proxy.png)
