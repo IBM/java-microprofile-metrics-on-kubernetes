@@ -24,6 +24,9 @@ The [sample application](https://github.com/IBM/sample.microservices.web-app) us
 - [Kubernetes Cluster](https://cloud.ibm.com/docs/containers/cs_ov.html#cs_ov)
 - [MicroProfile](https://microprofile.io/)
 - [IBM Cloud Kubernetes Service](https://cloud.ibm.com/catalog?taxonomyNavigation=apps&category=containers)
+- [Grafana](http://docs.grafana.org/guides/getting_started)
+- [Prometheus](https://prometheus.io/)
+- [Open Liberty - ](https://openliberty.io/)
 
 ## Getting Started
 
