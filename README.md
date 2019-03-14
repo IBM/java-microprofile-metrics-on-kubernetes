@@ -8,6 +8,7 @@ This code demonstrates the deployment of a Java Open Liberty application using M
 [MicroProfile](https://microprofile.io/) is a baseline platform definition that optimizes Enterprise Java for a microservices architecture and delivers application portability across multiple MicroProfile runtimes. Since the release of MicroProfile 1.2, the metrics feature comes out-of-the-box with the platform.
 
 The [sample application](https://github.com/IBM/sample.microservices.web-app) used is a web application for managing a conference and is based on a number of discrete microservices. The front end is written in Angular; the backing microservices are in Java. All run on Open Liberty, in Docker containers managed by Kubernetes.  It's based on a [demo application](https://github.com/eclipse/microprofile-conference) from the MicroProfile platform team.
+The fork [sample application](https://github.com/IBM/sample.microservices.web-app) was converted to use Open Liberty and Microprofile Metrics which is part of Microprofile Release 1.2.
 
 ![architecture](images/architecture.png)
 
@@ -26,7 +27,12 @@ The [sample application](https://github.com/IBM/sample.microservices.web-app) us
 - [IBM Cloud Kubernetes Service](https://cloud.ibm.com/catalog?taxonomyNavigation=apps&category=containers)
 - [Grafana](http://docs.grafana.org/guides/getting_started)
 - [Prometheus](https://prometheus.io/)
-- [Open Liberty - ](https://openliberty.io/)
+- [Open Liberty - An IBM open source project](https://openliberty.io/)
+
+
+## Microprofile Metrics
+
+MicroProfile Metrics provides a way to register Application-specific metrics to allow applications to expose metrics in the application scope. For more details on the metrics application programming model click [here](https://github.com/eclipse/microprofile-metrics/blob/master/spec/src/main/asciidoc/app-programming-model.adoc)
 
 ## Getting Started
 
@@ -63,14 +69,22 @@ cd java-microprofile-metrics-on-kubernetes
 
 If you want to [build the application](docs/build-instructions.md) yourself now would be a good time to do that. Please follow the rebuild steps if you'd like to re-create images with the latest available Open Liberty version. However for the sake of demonstration you can use the images that we've already built and uploaded to the journeycode Docker repository.
 
-### 2. Create Kuberenetes Cluster
+### 3. Create Kuberenetes Cluster
 Login to IBM Cloud and search for `kubernetes service` and select the service to create one.
 
 ![Kubernetes Service](images/kubernetes-service.png)
 
 Click `Create` and choose the configuration needed for your requirement and click `Create Cluster`.
 
-### 3. Deploy Microservices
+### 4. Deploy Microservices
+
+Each microservices (Speaker, Session, Vote, Schedule) uses Microprofile Metrics which provides a way to register application specific metrics in the application scope. The REST-ful endpoints are annonated with metric annotations such as:
+
+* @Gauge - Denotes a gauge, which samples the value of the annotated object.
+* @Timed - Denotes a timer, which tracks duration of the annotated object.
+* @Metered - Denotes a meter, which tracks the frequency of invocations of the annotated object.
+* @Count - Denotes a counter, which counts the invocations of the annotated object.
+* @Metric - An annotation that contains the metadata information when requesting a metric to be injected or produced. This annotation can be used on fields of type Meter, Timer, Counter, and Histogram. For Gauge, the @Metric annotation can only be used on producer methods/fields.
 
 Now, deploy the microservices with the commands:
 
@@ -148,7 +162,7 @@ When you click on vote link
 
 ![Vote Info](images/ui4.png)
 
-### 4. Installing Prometheus Server
+### 5. Installing Prometheus Server
 
 Prometheus server is set up to scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previous step you have already installed Prometheus server. The deployment yaml file [grafana](manifests/deploy-prometheus) deploys the Prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
 
@@ -162,7 +176,7 @@ Sample metrics graph for `thread count` on prometheus server:
 
 > NOTE: Exposing metrics using prometheus server is not recommended as the metrics are not human readable.
 
-### 5. Installing Grafana
+### 6. Installing Grafana
 
 Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by Prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
 
