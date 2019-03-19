@@ -22,9 +22,9 @@ The fork [sample application](https://github.com/IBM/sample.microservices.web-ap
 1. User accesses the web application through browser.
 
 ## Included Components
-- [Kubernetes Cluster](https://cloud.ibm.com/docs/containers/cs_ov.html#cs_ov)
+- [Kubernetes Cluster](https://kubernetes.io)
 - [MicroProfile](https://microprofile.io/)
-- [IBM Cloud Kubernetes Service](https://cloud.ibm.com/catalog?taxonomyNavigation=apps&category=containers)
+- [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/container-service)
 - [Grafana](http://docs.grafana.org/guides/getting_started)
 - [Prometheus](https://prometheus.io/)
 - [Open Liberty - An IBM open source project](https://openliberty.io/)
