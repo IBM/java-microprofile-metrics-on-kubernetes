@@ -164,7 +164,7 @@ When you click on vote link
 
 ### 5. Installing Prometheus Server
 
-Prometheus server is set up to scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previous step you have already installed Prometheus server. The deployment yaml file [grafana](manifests/deploy-prometheus) deploys the Prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
+Prometheus server is set up to scrape metrics from your microservices and gathers time series data which can saved in the database or can be directly fed to Grafana to visualize different metrics. As part of the previous step you have already installed Prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-prometheus.yaml) deploys the Prometheus server into the cluster which you can access on port 9090 after port forwarding. You can port forward using the following command:
 
 ```bash
 kubectl port-forward pod/<prometheus-server-pod-name>  9090:9090
@@ -178,7 +178,7 @@ Sample metrics graph for `thread count` on prometheus server:
 
 ### 6. Installing Grafana
 
-Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by Prometheus server. The deployment yaml file [Prometheus server](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
+Grafana is a platform for analytics and monitoring. You can create different charts based on the metrics gathered by Prometheus server. The deployment yaml file [grafana](manifests/deploy-grafana.yml) installs the Grafana dashboard into the cluster which you can access on port 3000 after port forwarding. To run locally you can use the following command:
 
 ```bash
 kubectl port-forward pod/<grafana-pod-name>  3000:3000
