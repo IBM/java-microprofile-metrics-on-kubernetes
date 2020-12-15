@@ -1,18 +1,21 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus-metrics
+  name: microservice-prometheus-deployment
   labels:
-    app: microprofile-app
+    app: microservice-prometheus
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-prometheus
   template:
     metadata:
       labels:
-        name: prometheus-deployment
+        app: microservice-prometheus
     spec:
       containers:
-      - name: prometheus-metrics
+      - name: microservice-prometheus
         #change the image name
         image: prom/prometheus:v2.7.1
         args:
@@ -36,13 +39,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus-service
+  name: microservice-prometheus-service
   labels:
-    app: microprofile-app
+    app: microservice-prometheus
 spec:
   clusterIP: None
   ports:
     - port: 9090
       targetPort: 9090
   selector:
-    name: prometheus-deployment
+    app: microservice-prometheus

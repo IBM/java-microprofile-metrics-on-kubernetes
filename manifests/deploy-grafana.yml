@@ -1,21 +1,24 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana-core  
+  name: grafana-core-deployment  
   labels:
-    app: grafana
+    app: microservice-grafana
     component: core
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-grafana
   template:
     metadata:
       labels:
-        app: grafana
+        app: microservice-grafana
         component: core
     spec:
       containers:
       - image: grafana/grafana:4.2.0
-        name: grafana-core
+        name: microservice-grafana
         imagePullPolicy: Always
         # env:
         resources:
@@ -68,15 +71,15 @@ type: Opaque
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana  
+  name: grafana-service  
   labels:
-    app: grafana
+    app: microservice-grafana
     component: core
 spec:  
   clusterIP: None
   ports:
     - port: 3000
   selector:
-    app: grafana
+    app: microservice-grafana
     component: core
 ---

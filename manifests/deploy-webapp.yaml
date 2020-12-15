@@ -1,15 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-webapp-sample
+  name: microservice-webapp-deployment
   labels:
-    app: microprofile-app
+    app: micorservice-webapp
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-webapp
   template:
     metadata:
       labels:
-        name: webapp-deployment
+        app: microservice-webapp
     spec:
       containers:
       - name: microservice-webapp
@@ -22,13 +25,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp-service
+  name: micorservice-webapp-service
   labels:
-    app: microprofile-app
+    app: micorservice-webapp
 spec:
   clusterIP: None
   ports:
     - port: 9080
       targetPort: 9080
   selector:
-    name: webapp-deployment
+    app: micorservice-webapp

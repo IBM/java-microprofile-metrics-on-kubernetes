@@ -1,15 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-schedule-sample
+  name: microservice-schedule-deployment
   labels:
-    app: microprofile-app
+    app: microservice-schedule
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-schedule
   template:
     metadata:
       labels:
-        name: schedule-deployment
+        app: microservice-schedule
     spec:
       containers:
       - name: microservice-schedule
@@ -22,15 +25,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: schedule-service
+  name: microservice-schedule-service
   annotations:
     mpmetrics: 'true'
   labels:
-    app: microprofile-app
+    app: microservice-schedule
 spec:
   clusterIP: None
   ports:
     - port: 9080
       targetPort: 9080
   selector:
-    name: schedule-deployment
+    app: microservice-schedule

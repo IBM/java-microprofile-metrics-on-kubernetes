@@ -1,15 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-speaker-sample
+  name: microservice-speaker-deployment
   labels:
-    app: microprofile-app
+    app: microservice-speaker
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-speaker
   template:
     metadata:
       labels:
-        name: speaker-deployment
+        app: microservice-speaker
     spec:
       containers:
       - name: microservice-speaker
@@ -22,15 +25,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: speaker-service
+  name: microservice-speaker-service
   annotations:
     mpmetrics: 'true'
   labels:
-    app: microprofile-app
+    app: microservice-speaker
 spec:
   clusterIP: None
   ports:
     - port: 9080
       targetPort: 9080
   selector:
-    name: speaker-deployment
+    app: microservice-speaker
