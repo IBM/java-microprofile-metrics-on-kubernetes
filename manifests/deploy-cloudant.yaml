@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: cloudant-secret-generator-deploy
   labels:
-    app: microprofile-app
+    app: microservice-cloudant
 spec:
   template:
     metadata:
@@ -52,7 +52,7 @@ kind: Service
 metadata:
   name: cloudant-service
   labels:
-    app: microprofile-app
+    app: microservice-cloudant
 spec:
   clusterIP: None
   ports:
@@ -60,20 +60,23 @@ spec:
       targetPort: 80
       name: http
   selector:
-    name: cloudant-deployment
+    app: microservice-cloudant
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudant-db
+  name: microservice-cloudant-deployment
   labels:
-    app: microprofile-app
+    app: microservice-cloudant
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-cloudant
   template:
     metadata:
       labels:
-        name: cloudant-deployment
+        app: microservice-cloudant
         version: v1
     spec:
       containers:

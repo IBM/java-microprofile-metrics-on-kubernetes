@@ -1,15 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-vote-sample
+  name: microservice-vote-deployment
   labels:
-    app: microprofile-app
+    app: microservice-vote
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-vote
   template:
     metadata:
       labels:
-        name: vote-deployment
+        app: microservice-vote
     spec:
       containers:
       - name: microservice-vote
@@ -35,15 +38,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vote-service
+  name: microservice-vote-service
   annotations:
     mpmetrics: 'true'
   labels:
-    app: microprofile-app
+    app: microservice-vote
 spec:
   clusterIP: None
   ports:
     - port: 9080
       targetPort: 9080
   selector:
-    name: vote-deployment
+    app: microservice-vote

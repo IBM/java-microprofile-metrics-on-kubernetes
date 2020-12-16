@@ -8,10 +8,10 @@ metadata:
 spec:
   tls: 
     - hosts:
-      - sanjeev-microprofile-clu.us-south.containers.appdomain.cloud
-      secretName: sanjeev-microprofile-clu
+      - stevemar-k8s-1-18-tor01-f2c6cdc6801be85fd188b09d006f13e3-0000.tor01.containers.appdomain.cloud
+      secretName: stevemar-k8s-1-18-tor01-f2c6cdc6801be85fd188b09d006f13e3-0000
   rules:
-  - host: sanjeev-microprofile-clu.us-south.containers.appdomain.cloud
+  - host: stevemar-k8s-1-18-tor01-f2c6cdc6801be85fd188b09d006f13e3-0000.tor01.containers.appdomain.cloud
     http:
       paths:
       - path: /speaker
